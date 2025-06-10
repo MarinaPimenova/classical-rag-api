@@ -1,0 +1,45 @@
+#
+server:
+  servlet:
+    context-path: /
+    session:
+      timeout: 3600 # in seconds, so 60 min  # If a duration suffix is not specified, seconds will be used.
+  compression:
+    min-response-size: 1024
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    enabled: true
+  port: 8081
+
+info:
+  app:
+    name: classical-rag-api
+    version: '@project.version@'
+
+logging:
+  level:
+    com.epam.training.gen.ai: debug
+    org.springframework: info
+    org:
+      hibernate: info
+      springframework:
+        web:
+          servlet:
+            DispatcherServlet: DEBUG
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+      resolve-lazily: false
+      enabled: true
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
