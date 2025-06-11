@@ -56,12 +56,12 @@ spring:
 
 datasource:
     pgml:
-      url: jdbc:postgresql://localhost:5433/postgresml #?stringtype=unspecified # 5433
+      url: jdbc:postgresql://localhost:5433/postgresml
       username: ${POSTGRES_USER:postgresml}
       password: ${POSTGRES_PASSWORD:postgresml}
       driverClassName: org.postgresql.Driver
     pgvector:
-      url: jdbc:postgresql://localhost:5432/embd #?stringtype=unspecified # 5433
+      url: jdbc:postgresql://localhost:5432/embd
       username: ${POSTGRES_USER:postgres}
       password: ${POSTGRES_PASSWORD:postgres}
       driverClassName: org.postgresql.Driver
