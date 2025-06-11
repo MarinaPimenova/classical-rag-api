@@ -70,15 +70,15 @@ for the backend and a modern **React + Vite** frontend styled similar to ChatGPT
 
 ## How to Run
 ### Prerequisites
-- Java 21
-- npm (to build UI)
-- Docker engine
-- bash console
+- Java 21 (optional)
+- npm (to build UI) (optional)
+- Docker engine (*mandatory* to run dockernized app)
+- bash console (*mandatory*)
 
 ### Set up ENVIRONMENT variables & Run docker-compose
 - Before running docker-compose you need set up the following Environment variables in the `.env` file under config folder:
-  - POSTGRES_USER -> by default admin
-  - POSTGRES_PASSWORD -> by default admin
+  - POSTGRES_USER -> by default postgres
+  - POSTGRES_PASSWORD -> by default postgres
   - OPEN_AI_API_KEY -> *No default value*
   - OPEN_AI_ENDPOINT -> by default https://ai-proxy.lab.epam.com
   - CHAT_MODEL -> by default `gpt-4.1-mini-2025-04-14`
