@@ -44,11 +44,37 @@ cd ~
 mkdir sb-projects
 cd sb-projects
 ``` 
-
+### Build docker images Locally (Optional)
 **The following 2 repositories should be cloned under the same folder !!!** <br/>
 - Clone [classical-rag-api](https://github.com/MarinaPimenova/classical-rag-api)
 - Clone [rag-spa](https://github.com/MarinaPimenova/rag-spa) <br/> `git clone https://github.com/MarinaPimenova/rag-spa.git`
 - Go to `k8s` subfolder under `classical-rag-api` folder and execute `./build-all-docker-image.sh` to build images
+
+#### Push docker images to https://hub.docker.com/
+Let’s build our container: <br/>
+```shell
+$ docker build -t mnpma/rag-ui:1.0 .
+
+ naming to docker.io/mnpma/rag-ui:1.0
+ 
+$ docker build -t mnpma/rag-api:1.0 .
+=> naming to docker.io/mnpma/rag-api:1.0 
+```
+Now let’s push this to Docker Hub. If you haven’t logged into the Docker Hub <br/>
+via your command line, you must do this now, and enter your username and password: <br/>
+```shell
+$ docker login
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username:
+Password:
+Login Succeeded
+$
+$ docker push rag-ui:1.0
+$ docker push rag-api:1.0
+```
+
+
+### Set up ENVIRONMENT variables & Run docker-compose
 - Before running docker-compose you need set up the following Environment variables in the `.env` file under config folder:
   - POSTGRES_USER -> by default admin
   - POSTGRES_PASSWORD -> by default admin
@@ -57,8 +83,6 @@ cd sb-projects
   - CHAT_MODEL -> by default `gpt-4.1-mini-2025-04-14` 
   - MISTRAL_AI_API_KEY -> *No default value* 
 - Open a terminal, navigate to the directory (`<ROOT_FOLDER>/classical-rag-api/docker-config`) <br/>containing docker-compose.yml file, and run the following command:
-
-**Please be aware that very soon the run process will be simplified - once above images will be pushed into [hub.docker.com](https://hub.docker.com)**
 
 ```shell
 cd <ROOT_FOLDER>/classical-rag-api/docker-config
