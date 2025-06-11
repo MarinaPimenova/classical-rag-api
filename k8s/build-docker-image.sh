@@ -26,8 +26,8 @@ if [ -n "$local_image" ]; then
 fi
 
 #cd ..
-
-working_dir="$HOME/sb-projects/$repo_name"
+# /mnt/c/Users/Marina_Pimenova/sb-projects/classical-rag-api
+working_dir="$repo_name"
 cd "$working_dir"
 path=$(pwd)
 echo "working_dir: $path"

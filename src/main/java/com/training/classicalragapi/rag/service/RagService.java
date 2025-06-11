@@ -1,5 +1,6 @@
 package com.training.classicalragapi.rag.service;
 
+import com.training.classicalragapi.rag.model.AIGenerativeResponse;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.PromptChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
@@ -11,14 +12,18 @@ import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @noinspection SpringJavaInjectionPointsAutowiringInspection
  */
 @Service
 public class RagService {
+    private static final String NEW_SESSION_ID = "1";
+
     private String template = """
             You're assisting with questions.
             Use the following context and chat history to answer the QUESTION but act as if you knew this information innately.
@@ -40,14 +45,17 @@ public class RagService {
         this.vectorStore = vectorStore;
         this.chatMemory = chatMemory;
         this.chatClient = chatClient;
-
     }
 
-    public String generate(String sessionId, String question) {
-
+    public AIGenerativeResponse generate(String sessionId, String question) {
+        Assert.notNull(sessionId, "sessionId cannot be null");
+        Assert.notNull(question, "question cannot be null");
         PromptTemplate pt = new PromptTemplate(template);
         Prompt p = pt.create(Map.of("question", question));
-        return chatClient
+        if(NEW_SESSION_ID.equals(sessionId)) {
+            sessionId = UUID.randomUUID().toString();
+        }
+        String content = chatClient
                 .prompt(p)
                 .system(systemSpec -> systemSpec.text(systemPrompt)
                         .param("question", question))
@@ -57,6 +65,10 @@ public class RagService {
                         new SimpleLoggerAdvisor())
                 .call()
                 .content();
+        return AIGenerativeResponse.builder()
+                .sessionId(sessionId)
+                .content(content)
+                .build();
     }
 
     protected PromptChatMemoryAdvisor promptChatMemoryAdvisor(String conversationId) {
