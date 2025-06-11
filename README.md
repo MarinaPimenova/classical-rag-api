@@ -66,7 +66,7 @@ Frontend URL: http://localhost:7000
 cd ~/sb-projects/classical-rag-api/docker-config
 docker rm -v -f $(docker ps -qa)
 docker-compose down -v --remove-orphans
-docker-compose -f ./db-docker-compose.yml --env-file ./config/.env up
+# docker-compose -f ./db-docker-compose.yml --env-file ./config/.env up
 
 docker-compose -f ./pgvector-docker-compose.yml --env-file ./config/.env up
 ```

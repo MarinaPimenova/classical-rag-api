@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 public class DataSourceConfig {
 
-    @Bean(name = "pgmlDsProperties")
+/*    @Bean(name = "pgmlDsProperties")
     public DataSourceProperties pgmlDsProperties(PgmlProperties properties) {
         DataSourceProperties ds = new DataSourceProperties();
         ds.setUrl(properties.getUrl());
@@ -22,7 +22,7 @@ public class DataSourceConfig {
         ds.setPassword(properties.getPassword());
         ds.setDriverClassName(properties.getDriverClassName());
         return ds;
-    }
+    }*/
 
     @Primary
     @Bean(name = "pgvectorDsProperties")
@@ -35,7 +35,7 @@ public class DataSourceConfig {
         return ds;
     }
 
-    @Bean(name = "pgmlDataSource")
+/*    @Bean(name = "pgmlDataSource")
     public DataSource pgmlDataSource(
             @Qualifier("pgmlDsProperties") DataSourceProperties properties) {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
@@ -45,7 +45,7 @@ public class DataSourceConfig {
         dataSourceBuilder.password(properties.getPassword());
 
         return dataSourceBuilder.build();
-    }
+    }*/
 
     @Primary
     @Bean(name = "pgvectorDataSource")

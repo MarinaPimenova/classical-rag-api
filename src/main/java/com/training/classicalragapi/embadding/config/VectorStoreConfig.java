@@ -1,20 +1,15 @@
 package com.training.classicalragapi.embadding.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.ai.document.MetadataMode;
 import org.springframework.ai.embedding.EmbeddingModel;
-import org.springframework.ai.postgresml.PostgresMlEmbeddingModel;
-import org.springframework.ai.postgresml.PostgresMlEmbeddingOptions;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.ai.vectorstore.pgvector.PgVectorStore;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
-import java.util.Map;
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Configuration
@@ -25,28 +20,8 @@ public class VectorStoreConfig {
     @Bean
     public JdbcTemplate pgvectorJdbcTemplate(
             @Qualifier("pgvectorDataSource") DataSource dataSource) {
-
         return new JdbcTemplate(dataSource);
     }
-
-    @Bean
-    public JdbcTemplate pgmlJdbcTemplate(
-            @Qualifier("pgmlDataSource") DataSource dataSource) {
-        return new JdbcTemplate(dataSource);
-    }
-
-    @Bean
-    public EmbeddingModel embeddingModel(@Qualifier("pgmlJdbcTemplate") JdbcTemplate jdbcTemplate) {
-
-        return new PostgresMlEmbeddingModel(jdbcTemplate,
-                PostgresMlEmbeddingOptions.builder()
-                        .transformer("distilbert-base-uncased") // huggingface transformer model name.
-                        .vectorType(PostgresMlEmbeddingModel.VectorType.PG_VECTOR) //vector type in PostgreSQL.
-                        .kwargs(Map.of("device", "cpu")) // optional arguments.
-                        .metadataMode(MetadataMode.EMBED) // Document metadata mode.
-                        .build());
-    }
-
 
     @Bean
     public VectorStore vectorStore(@Qualifier("pgvectorJdbcTemplate") JdbcTemplate jdbcTemplate,
@@ -61,4 +36,23 @@ public class VectorStoreConfig {
                 .maxDocumentBatchSize(pgvectorConfig.getMaxDocumentBatchSize())         // Optional: defaults to 10000
                 .build();
     }
+
+/*    @Bean
+    public JdbcTemplate pgmlJdbcTemplate(
+            @Qualifier("pgmlDataSource") DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
+    }*/
+
+/*    @Bean
+    public EmbeddingModel embeddingModel(@Qualifier("pgmlJdbcTemplate") JdbcTemplate jdbcTemplate) {
+
+        return new PostgresMlEmbeddingModel(jdbcTemplate,
+                PostgresMlEmbeddingOptions.builder()
+                        .transformer("distilbert-base-uncased") // huggingface transformer model name.
+                        .vectorType(PostgresMlEmbeddingModel.VectorType.PG_VECTOR) //vector type in PostgreSQL.
+                        .kwargs(Map.of("device", "cpu")) // optional arguments.
+                        .metadataMode(MetadataMode.EMBED) // Document metadata mode.
+                        .build());
+    }*/
+
 }

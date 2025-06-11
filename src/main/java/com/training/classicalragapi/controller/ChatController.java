@@ -2,6 +2,7 @@ package com.training.classicalragapi.controller;
 
 import com.training.classicalragapi.embadding.service.DataLoaderService;
 import com.training.classicalragapi.embadding.service.PdfFileReaderService;
+import com.training.classicalragapi.rag.model.AIGenerativeResponse;
 import com.training.classicalragapi.rag.service.RagService;
 import lombok.RequiredArgsConstructor;
 
@@ -24,7 +25,7 @@ public class ChatController {
     private final RagService ragService;
 
     @GetMapping("/{uuid}/assistant")
-    ResponseEntity<String> inquire(@PathVariable String uuid, @RequestParam String question) {
+    ResponseEntity<AIGenerativeResponse> inquire(@PathVariable String uuid, @RequestParam String question) {
         return ResponseEntity.ok(ragService.generate(uuid, question));
     }
 
@@ -34,8 +35,8 @@ public class ChatController {
         return ResponseEntity.ok(dataLoaderService.uploadKnowledge(file));
     }
 
-    @GetMapping("/docs/{query}")
-    ResponseEntity<List<Document>> query(@PathVariable String query) {
+    @GetMapping("/docs")
+    ResponseEntity<List<Document>> query(@RequestParam String query) {
 
         List<Document> docs = pdfFileReaderService.getResources(query);
         return ResponseEntity.ok(docs);
