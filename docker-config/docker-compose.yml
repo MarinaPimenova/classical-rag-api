@@ -1,0 +1,34 @@
+
+services:
+  rag-ui-service:
+    container_name: "rag-ui-service"
+    image: rag-ui-local:latest
+    ports:
+      - "7000:80"
+
+  postgresml-service:
+    image: ghcr.io/postgresml/postgresml:2.10.0
+    container_name: postgresml-service
+    environment:
+      POSTGRES_DB: postgresml
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db:/var/lib/postgresql/data
+      - ./sql-scripts:/docker-entrypoint-initdb.d
+
+  rag-api-service:
+    container_name: "rag-api-service"
+    image: rag-api-local:latest
+    environment:
+      OPEN_AI_API_KEY: ${OPEN_AI_API_KEY}
+      OPEN_AI_ENDPOINT: ${OPEN_AI_ENDPOINT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "8090:8081"
+    depends_on:
+      - postgresml-service

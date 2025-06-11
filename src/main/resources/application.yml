@@ -33,7 +33,43 @@ spring:
       max-request-size: 10MB
       resolve-lazily: false
       enabled: true
+  ai:
+    vectorstore:
+      pgvector:
+        index-type: HNSW
+        distance-type: COSINE_DISTANCE
+        dimensions: 768
+        initialize-schema: false
+        schema-name: public
+        table-name: vector_store
+        max-document-batch-size: 10000
+    openai:
+      api-key: ${OPEN_AI_API_KEY}
+      base-url: ${OPEN_AI_ENDPOINT:https://ai-proxy.lab.epam.com}
+      chat:
+        completions-path: /openai/deployments/gpt-4.1-mini-2025-04-14/chat/completions
+        model: gpt-4.1-mini-2025-04-14 #"gpt-4-turbo"
+        base-url: ${OPEN_AI_ENDPOINT:https://ai-proxy.lab.epam.com}
+        embeddings-path: /openai/deployments/text-embedding-ada-002/embeddings
 
+    postgresml:
+      embedding:
+        create-extension: true
+        options:
+          vector-type: pg_vector
+          metadata-mode: embed
+
+datasource:
+    pgml:
+      url: jdbc:postgresql://localhost:5432/postgresml #?stringtype=unspecified # 5433
+      username: ${POSTGRES_USER:postgresml}
+      password: ${POSTGRES_PASSWORD:postgresml}
+      driverClassName: org.postgresql.Driver
+    pgvector:
+      url: jdbc:postgresql://localhost:5433/embd #?stringtype=unspecified # 5433
+      username: ${POSTGRES_USER:postgres}
+      password: ${POSTGRES_PASSWORD:postgres}
+      driverClassName: org.postgresql.Driver
 
 management:
   endpoints:
