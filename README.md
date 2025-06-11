@@ -5,11 +5,11 @@
 This project demonstrates a minimal **RAG system** using:
 
 - **Backend (Spring Boot 3, Spring AI + Java 21)**:
-    - Retriever Service: retrieves relevant knowledge from PostgreSQL+pgvector+pgml
+    - Retriever Service: retrieves relevant knowledge from PostgreSQL + pgvector
     - Generator Service:  generate answers
     - Session-based ChatHistory
-    - Memory window (only last N messages kept)
-    - Swagger UI for easy API testing
+    - Memory window (only last 10 (not yet configured->hardcoded) messages kept)
+    - [Swagger UI for easy API testing]()
 
 - **Frontend (ReactJS + Vite)**:
     - Single-page chat app
@@ -19,14 +19,18 @@ This project demonstrates a minimal **RAG system** using:
 ---
 
 ## 🛠 Technologies Used
-- **Backend**: Java 21, Spring Boot 3, Spring AI 1.0, PostgreSQL with extensions: [pgvector](https://github.com/pgvector/pgvector), [PostgresML](https://github.com/postgresml/postgresml/blob/master/README.md)
+- **Backend**: Java 21, Spring Boot 3, Spring AI 1.0, PostgreSQL with extensions: [pgvector](https://github.com/pgvector/pgvector)
 - **Frontend**: ReactJS (Vite)
 - **Vector Search**: vector extension in PostgreSQL
 - **Embeddings**: postgresML 
 - **OpenAI**: For text generation via Spring Boot AI
 
-[PostgresML Embeddings](https://docs.spring.io/spring-ai/reference/api/embeddings/postgresml-embeddings.html)
 ---
+## REST API Documentation
+- Run application and find the OpenAPI descriptions at /v3/api-docs, which is the default path:
+
+[api-docs](http://localhost:8081/v3/api-docs)
+[swagger-ui](http://localhost:8081/swagger-ui/index.html)
 
 ## How to Run
 ### Prerequisites
@@ -48,10 +52,13 @@ cd sb-projects
 - Before running docker-compose you need set up the following Environment variables in the `.env` file under config folder:
   - POSTGRES_USER -> by default admin
   - POSTGRES_PASSWORD -> by default admin
-  - OPEN_AI_API_KEY -> No default value
+  - OPEN_AI_API_KEY -> *No default value*
   - OPEN_AI_ENDPOINT -> by default https://ai-proxy.lab.epam.com
   - CHAT_MODEL -> by default `gpt-4.1-mini-2025-04-14` 
+  - MISTRAL_AI_API_KEY -> *No default value* 
 - Open a terminal, navigate to the directory (`<ROOT_FOLDER>/classical-rag-api/docker-config`) <br/>containing docker-compose.yml file, and run the following command:
+
+**Please be aware that very soon the run process will be simplified - once above images will be pushed into [hub.docker.com](https://hub.docker.com)**
 
 ```shell
 cd <ROOT_FOLDER>/classical-rag-api/docker-config
@@ -61,12 +68,15 @@ docker-compose --env-file ./config/.env up
 
 Frontend URL: http://localhost:7000
 
-#### Run DB 
+#### Run DB (standalone for debugging)
 ```shell
 cd ~/sb-projects/classical-rag-api/docker-config
 docker rm -v -f $(docker ps -qa)
 docker-compose down -v --remove-orphans
-# docker-compose -f ./db-docker-compose.yml --env-file ./config/.env up
 
 docker-compose -f ./pgvector-docker-compose.yml --env-file ./config/.env up
 ```
+
+### TBD
+[PostgresML Embeddings](https://docs.spring.io/spring-ai/reference/api/embeddings/postgresml-embeddings.html)
+[PostgresML](https://github.com/postgresml/postgresml/blob/master/README.md)

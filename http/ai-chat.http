@@ -46,14 +46,22 @@ GET http://localhost:8081/api/docs?query="What ways can be used to deploy Lambda
 #              1. Uploading your Lambda code as a zip file archive directly through the AWS Management Console UI.\n\n
 #               2. Creating and uploading a container image to Lambda via a valid Amazon Elastic Container Registry (ECR) image URI.\n\n3. Using infrastructure-as-code tools such as AWS CloudFormation and the AWS Serverless Application Model (AWS SAM), which provide simplified syntax for defining serverless resources and streamline deployment.\n\n4. Employing AWS Cloud Development Kit (AWS CDK) or Terraform to define and deploy Lambda functions programmatically.\n\n5. Utilizing AWS SAM Local, an AWS CLI tool, for local development, testing, and analysis before deploying to Lambda.\n\n6. Integrating with AWS developer tools like AWS Cloud9 IDE, AWS CodeBuild, AWS CodeDeploy, and AWS CodePipeline to automate authoring, testing, debugging, and deploying Lambda-based applications.\n\nThese methods help manage complex Lambda functions with layers, dependencies, and permissions more efficiently than manual uploads through the console UI."
 #}
-GET http://localhost:8081/api/1/assistant?question="What ways can be used to deploy Lambda into AWS cloud?"
+POST http://localhost:8081/api/1/assistant
+Content-Type: application/json
 
+{
+  "question": "What ways can be used to deploy Lambda into AWS cloud?"
+}
 ###
 ### {
 #  "sessionId": "09d4947d-2f88-4239-a9e9-2c0345e71b85",
 #  "content": "You can deploy AWS Lambda using zip file uploads, container images via ECR,
 # infrastructure-as-code tools like CloudFormation, AWS SAM, AWS CDK, Terraform, and AWS developer tools for automation."
 #}
-GET http://localhost:8081/api/09d4947d-2f88-4239-a9e9-2c0345e71b85/assistant?question="Please provide very short answer based on the previous result."
+POST http://localhost:8081/api/09d4947d-2f88-4239-a9e9-2c0345e71b85/assistant
+Content-Type: application/json
 
+{
+  "question": "Please provide very short answer based on the previous result."
+}
 ###
