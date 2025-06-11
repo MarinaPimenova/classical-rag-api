@@ -54,11 +54,9 @@ cd sb-projects
 Let’s build our container: <br/>
 ```shell
 $ docker build -t mnpma/rag-ui:1.0 .
-
- naming to docker.io/mnpma/rag-ui:1.0
  
 $ docker build -t mnpma/rag-api:1.0 .
-=> naming to docker.io/mnpma/rag-api:1.0 
+
 ```
 Now let’s push this to Docker Hub. If you haven’t logged into the Docker Hub <br/>
 via your command line, you must do this now, and enter your username and password: <br/>
@@ -69,10 +67,9 @@ Username:
 Password:
 Login Succeeded
 $
-$ docker push rag-ui:1.0
-$ docker push rag-api:1.0
+$ docker push mnpma/rag-ui:1.0
+$ docker push mnpma/rag-api:1.0
 ```
-
 
 ### Set up ENVIRONMENT variables & Run docker-compose
 - Before running docker-compose you need set up the following Environment variables in the `.env` file under config folder:
@@ -90,12 +87,14 @@ cd <ROOT_FOLDER>/classical-rag-api/docker-config
 docker-compose --env-file ./config/.env up
 ```
 
-Frontend URL: http://localhost:7000
+Frontend URL: http://localhost:7000/rag-spa
+![img.png](img.png)
 
 #### Run DB (standalone for debugging)
 ```shell
 cd ~/sb-projects/classical-rag-api/docker-config
 docker rm -v -f $(docker ps -qa)
+docker rmi -f IMAGE_ID
 docker-compose down -v --remove-orphans
 
 docker-compose -f ./pgvector-docker-compose.yml --env-file ./config/.env up
