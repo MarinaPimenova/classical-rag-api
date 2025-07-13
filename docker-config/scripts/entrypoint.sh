@@ -37,7 +37,7 @@ PGPASSWORD=postgresml psql -c 'CREATE EXTENSION IF NOT EXISTS pgml' \
         -d postgresml \
         -U postgresml \
         -h 127.0.0.1 \
-        -p 5432 2> /dev/null 1>&2
+        -p 5433 2> /dev/null 1>&2
 
 bash /app/dashboard.sh &
 

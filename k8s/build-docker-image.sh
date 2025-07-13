@@ -25,8 +25,7 @@ if [ -n "$local_image" ]; then
   docker rmi -f "$local_image"
 fi
 
-#cd ..
-# /mnt/c/Users/Marina_Pimenova/sb-projects/classical-rag-api
+cd ../..
 working_dir="$repo_name"
 cd "$working_dir"
 path=$(pwd)

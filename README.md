@@ -79,6 +79,7 @@ for the backend and a modern **React + Vite** frontend styled similar to ChatGPT
 - Before running docker-compose you need set up the following Environment variables in the `.env` file under config folder:
   - POSTGRES_USER -> by default postgres
   - POSTGRES_PASSWORD -> by default postgres
+  - PGVECTOR_URL 
   - OPEN_AI_API_KEY -> *No default value*
   - OPEN_AI_ENDPOINT -> by default https://ai-proxy.lab.epam.com
   - CHAT_MODEL -> by default `gpt-4.1-mini-2025-04-14`
@@ -91,8 +92,22 @@ cd <ROOT_FOLDER>/classical-rag-api/docker-config
 docker-compose --env-file ./config/.env up
 ```
 
-Frontend URL: http://localhost:7000/rag-spa
+**Frontend URL**: http://localhost:7000/rag-spa or http://127.0.0.1:7000/rag-spa/
 ![img.png](img.png)
+
+### Troubleshooting
+Error:<br/>
+```text
+ Connection to localhost:5432 refused. Check that the hostname 
+ and port are correct and that the postmaster is accepting TCP/IP connections.
+```
+Solution:<br/>
+```yaml
+    pgvector:
+      url: "${PGVECTOR_URL:jdbc:postgresql://localhost:5432/embd}"
+```
+setup correct value of PGVECTOR_URL ENVIRONMENT VARIABLE in `.env` file
+
 
 ### Build docker images Locally (Optional)
 **The following 2 repositories should be cloned under the same folder !!!** <br/>
@@ -133,3 +148,9 @@ docker-compose -f ./pgvector-docker-compose.yml --env-file ./config/.env up
 ### TBD
 [PostgresML Embeddings](https://docs.spring.io/spring-ai/reference/api/embeddings/postgresml-embeddings.html)
 [PostgresML](https://github.com/postgresml/postgresml/blob/master/README.md)
+
+### Examples of questions / prompts:
+```text
+list top 10 vulnerabilities from GenAI Red teaming guide
+```
+

@@ -61,7 +61,7 @@ datasource:
       password: ${POSTGRES_PASSWORD:postgresml}
       driverClassName: org.postgresql.Driver
     pgvector:
-      url: jdbc:postgresql://localhost:5432/embd #?stringtype=unspecified # 5433
+      url: "${PGVECTOR_URL:jdbc:postgresql://localhost:5432/embd}" #?stringtype=unspecified # 5433
       username: ${POSTGRES_USER:postgres}
       password: ${POSTGRES_PASSWORD:postgres}
       driverClassName: org.postgresql.Driver
