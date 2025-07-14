@@ -30,6 +30,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       MISTRAL_AI_API_KEY: ${MISTRAL_AI_API_KEY}
+      PGVECTOR_URL: ${PGVECTOR_URL}
     ports:
       - 8081:8081
     depends_on:
